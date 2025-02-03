@@ -1,13 +1,15 @@
 #include <raylib.h>
+#include <iostream>
+#include <cmath>
 #include "grid.hpp"
 
-void Grid::Draw()
+void Grid::Draw(long t)
 {
-    for(int row =0 ; row<rows; row++)
+    for(int row =0 ; row < rows; row++)
     {
         for(int column = 0; column < columns; column++)
         {
-            Color color = cells[row][column] ? Color{0, 255, 0, 255} : Color{55, 55, 55, 255};
+            Color color = cells[row][column] ? Color{255, 0, double(((sin((double(t)/255.)*(2*M_PI))+1)/2.)*255.), 255} : Color{0, 0, 0, 255};
             DrawRectangle(column * cellSize, row * cellSize, cellSize - 1, cellSize - 1, color);
         }
     }
@@ -19,6 +21,10 @@ void Grid::SetValue(int row, int column, int value)
     {
         cells[row][column] = value;
     }
+    else
+    {
+        std::cout << "[INFO] Failure to set cell " << row << ", " << column << std::endl;
+    }
 }
 
 int Grid::GetValue(int row, int column)
@@ -28,6 +34,18 @@ int Grid::GetValue(int row, int column)
         return cells[row][column];
     }
     return 0;
+}
+
+void Grid::FillRandom()
+{
+    for(int row = 0; row < rows; row++)
+    {
+        for(int column = 0; column < columns; column++)
+        {
+            int randomValue = GetRandomValue(0, 4);
+            cells[row][column] = (randomValue == 4) ? 1 : 0;
+        }
+    }
 }
 
 bool Grid::IsWithinBounds(int row, int column)
