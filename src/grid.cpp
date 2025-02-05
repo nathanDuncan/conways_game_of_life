@@ -9,7 +9,7 @@ void Grid::Draw(long t)
     {
         for(int column = 0; column < columns; column++)
         {
-            Color color = cells[row][column] ? Color{255, 0, double(((sin((double(t)/255.)*(2*M_PI))+1)/2.)*255.), 255} : Color{0, 0, 0, 255};
+            Color color = cells[row][column] ? Color{255, 0, double(((sin(((double(t)+row+column)/(255.*4.))*(2*M_PI))+1)/2.)*255.), 255} : Color{0, 0, 0, 255};
             DrawRectangle(column * cellSize, row * cellSize, cellSize - 1, cellSize - 1, color);
         }
     }
